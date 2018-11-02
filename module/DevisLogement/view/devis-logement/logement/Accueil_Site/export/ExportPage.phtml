@@ -1,0 +1,470 @@
+<?php
+require("module/DevisLogement/view/devis-logement/logement/Master_Disptaching/FonctionsCalculMasterDispatching.php");
+require_once 'module/DevisLogement/view/devis-logement/logement/PHPExcel-1.8/Classes/PHPExcel.php';
+require_once 'module/DevisLogement/view/devis-logement/logement/PHPExcel-1.8/Classes/PHPExcel/IOFactory.php';
+
+
+$objPHPExcel = new PHPExcel;
+// set default font
+$objPHPExcel->getDefaultStyle()->getFont()->setName('Calibri');
+
+// set default font size
+
+$objPHPExcel->getDefaultStyle()->getFont()->setSize(10);
+// create the writer
+
+$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, "Excel2007");
+
+
+$ligneCourante = 3;
+
+$objPHPExcel->createSheet();
+$objPHPExcel->setActiveSheetIndex(0);
+$objSheet = $objPHPExcel->getActiveSheet();
+$objSheet->setTitle('Liste des logements');
+
+$objSheet->setCellValue('A1', 'Adresse du Chantier');
+$objSheet->setCellValue('B1', 'Charge d\'op');
+$objSheet->setCellValue('C1', 'M.O.E');
+$objSheet->setCellValue('D1', 'Type d\'opération');
+$objSheet->setCellValue('E1', 'Pilote O.P.C');
+$objSheet->setCellValue('F1', 'Nature Opération');
+$objSheet->setCellValue('G1', 'Etat de la demande');
+$objSheet->setCellValue('H1', 'Etat du logement');
+
+foreach ($ListeLogement as $logement) {
+    foreach ($DemandeLogement as $demande) {
+        if ($logement->idlogement === $demande->idlogementconcerne) {
+            $objSheet->setCellValueByColumnAndRow(0, $ligneCourante, $logement->adresse);
+            $objSheet->setCellValueByColumnAndRow(1, $ligneCourante, $logement->chargeopclient);
+            $objSheet->setCellValueByColumnAndRow(2, $ligneCourante, $logement->moe);
+            $objSheet->setCellValueByColumnAndRow(3, $ligneCourante, $logement->typeoperation);
+            $objSheet->setCellValueByColumnAndRow(4, $ligneCourante, $logement->piloteopc);
+            $objSheet->setCellValueByColumnAndRow(5, $ligneCourante, $demande->natureoperation);
+            $objSheet->setCellValueByColumnAndRow(6, $ligneCourante, $demande->etatdemande);
+            $objSheet->setCellValueByColumnAndRow(7, $ligneCourante, $demande->etatlogement);
+
+            if ($objSheet->getCellByColumnAndRow(6, $ligneCourante)->getValue() == 'LGT PRIS EN COMPTE'){
+
+                $objSheet->getCellByColumnAndRow(6, $ligneCourante)->getStyle()->applyFromArray(
+                    array(
+                        'fill' => array(
+                            'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                            'startcolor' => array('rgb' => '16F349')
+                        )
+                    )
+                );
+            }
+             if ($objSheet->getCellByColumnAndRow(6, $ligneCourante)->getValue() == 'LGT PAS PRIS EN COMPTE'){
+
+                    $objSheet->getCellByColumnAndRow(6, $ligneCourante)->getStyle()->applyFromArray(
+                        array(
+                            'fill' => array(
+                                'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                                'startcolor' => array('rgb' => 'EF3131')
+                            )
+                        )
+                    );
+                }
+
+            if ($objSheet->getCellByColumnAndRow(6, $ligneCourante)->getValue() == 'étude de faisabilité client en cours'){
+
+                $objSheet->getCellByColumnAndRow(6, $ligneCourante)->getStyle()->applyFromArray(
+                    array(
+                        'fill' => array(
+                            'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                            'startcolor' => array('rgb' => 'FF9B04')
+                        )
+                    )
+                );
+            }
+
+            if ($objSheet->getCellByColumnAndRow(6, $ligneCourante)->getValue() == 'étude de faisabilité client validé'){
+
+                $objSheet->getCellByColumnAndRow(6, $ligneCourante)->getStyle()->applyFromArray(
+                    array(
+                        'fill' => array(
+                            'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                            'startcolor' => array('rgb' => 'F8FF04')
+                        )
+                    )
+                );
+            }
+
+            if ($objSheet->getCellByColumnAndRow(7, $ligneCourante)->getValue() == 'Préparation en cours'){
+
+                $objSheet->getCellByColumnAndRow(7, $ligneCourante)->getStyle()->applyFromArray(
+                    array(
+                        'fill' => array(
+                            'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                            'startcolor' => array('rgb' => 'FF9B04')
+                        )
+                    )
+                );
+            }
+
+            if ($objSheet->getCellByColumnAndRow(7, $ligneCourante)->getValue() == 'Préparation à lancer'){
+
+                $objSheet->getCellByColumnAndRow(7, $ligneCourante)->getStyle()->applyFromArray(
+                    array(
+                        'fill' => array(
+                            'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                            'startcolor' => array('rgb' => '1559F9')
+                        )
+                    )
+                );
+            }
+
+
+            if ($objSheet->getCellByColumnAndRow(7, $ligneCourante)->getValue() == 'travaux en cours'){
+
+                $objSheet->getCellByColumnAndRow(7, $ligneCourante)->getStyle()->applyFromArray(
+                    array(
+                        'fill' => array(
+                            'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                            'startcolor' => array('rgb' => 'F8FF04')
+                        )
+                    )
+                );
+            }
+            if ($objSheet->getCellByColumnAndRow(7, $ligneCourante)->getValue() == 'logement réceptionné'){
+
+                $objSheet->getCellByColumnAndRow(7, $ligneCourante)->getStyle()->applyFromArray(
+                    array(
+                        'fill' => array(
+                            'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                            'startcolor' => array('rgb' => '16F349')
+                        )
+                    )
+                );
+            }
+
+            if ($objSheet->getCellByColumnAndRow(7, $ligneCourante)->getValue() == 'en attente de validation'){
+
+                $objSheet->getCellByColumnAndRow(7, $ligneCourante)->getStyle()->applyFromArray(
+                    array(
+                        'fill' => array(
+                            'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                            'startcolor' => array('rgb' => 'EF3131')
+                        )
+                    )
+                );
+            }
+            $ligneCourante++;
+        }
+
+    }
+
+
+// autosize the columns
+
+    $objSheet->getColumnDimension('A')->setAutoSize(true);
+    $objSheet->getColumnDimension('B')->setAutoSize(true);
+    $objSheet->getColumnDimension('C')->setAutoSize(true);
+    $objSheet->getColumnDimension('D')->setAutoSize(true);
+    $objSheet->getColumnDimension('E')->setAutoSize(true);
+    $objSheet->getColumnDimension('F')->setAutoSize(true);
+    $objSheet->getColumnDimension('G')->setAutoSize(true);
+    $objSheet->getColumnDimension('H')->setAutoSize(true);
+    $objSheet->getColumnDimension('I')->setAutoSize(true);
+    $objSheet->getColumnDimension('J')->setAutoSize(true);
+    $objSheet->getColumnDimension('K')->setAutoSize(true);
+    $objSheet->getColumnDimension('L')->setAutoSize(true);
+    $objSheet->getColumnDimension('M')->setAutoSize(true);
+    $objSheet->getColumnDimension('N')->setAutoSize(true);
+
+}
+
+
+
+
+$ligneCourante = 3;
+
+$objPHPExcel->createSheet();
+$objPHPExcel->setActiveSheetIndex(1);
+$objSheet = $objPHPExcel->getActiveSheet();
+$objSheet->setTitle('Logements en études clients');
+
+
+
+$objSheet->setCellValue('A1', 'Adresse du Chantier');
+$objSheet->setCellValue('B1', 'Charge d\'op');
+$objSheet->setCellValue('C1', 'M.O.E');
+$objSheet->setCellValue('D1', 'Type d\'opération');
+$objSheet->setCellValue('E1', 'Pilote O.P.C');
+$objSheet->setCellValue('F1', 'Nature Opération');
+$objSheet->setCellValue('G1', 'Etat de la demande');
+$objSheet->setCellValue('H1', 'Etat du logement');
+
+foreach ($ListeLogement as $logement) {
+    foreach ($logementenEtudesClient as $demande) {
+        if ($logement->idlogement === $demande->idlogementconcerne) {
+            $objSheet->setCellValueByColumnAndRow(0, $ligneCourante, $logement->adresse);
+            $objSheet->setCellValueByColumnAndRow(1, $ligneCourante, $logement->chargeopclient);
+            $objSheet->setCellValueByColumnAndRow(2, $ligneCourante, $logement->moe);
+            $objSheet->setCellValueByColumnAndRow(3, $ligneCourante, $logement->typeoperation);
+            $objSheet->setCellValueByColumnAndRow(4, $ligneCourante, $logement->piloteopc);
+            $objSheet->setCellValueByColumnAndRow(5, $ligneCourante, $demande->natureoperation);
+            $objSheet->setCellValueByColumnAndRow(6, $ligneCourante, $demande->etatdemande);
+            $objSheet->setCellValueByColumnAndRow(7, $ligneCourante, $demande->etatlogement);
+
+            $ligneCourante++;
+        }
+
+    }
+
+
+// autosize the columns
+
+    $objSheet->getColumnDimension('A')->setAutoSize(true);
+    $objSheet->getColumnDimension('B')->setAutoSize(true);
+    $objSheet->getColumnDimension('C')->setAutoSize(true);
+    $objSheet->getColumnDimension('D')->setAutoSize(true);
+    $objSheet->getColumnDimension('E')->setAutoSize(true);
+    $objSheet->getColumnDimension('F')->setAutoSize(true);
+    $objSheet->getColumnDimension('G')->setAutoSize(true);
+    $objSheet->getColumnDimension('H')->setAutoSize(true);
+    $objSheet->getColumnDimension('I')->setAutoSize(true);
+    $objSheet->getColumnDimension('J')->setAutoSize(true);
+    $objSheet->getColumnDimension('K')->setAutoSize(true);
+    $objSheet->getColumnDimension('L')->setAutoSize(true);
+    $objSheet->getColumnDimension('M')->setAutoSize(true);
+    $objSheet->getColumnDimension('N')->setAutoSize(true);
+
+}
+
+
+
+
+$ligneCourante = 3;
+
+$objPHPExcel->createSheet();
+$objPHPExcel->setActiveSheetIndex(2);
+$objSheet = $objPHPExcel->getActiveSheet();
+$objSheet->setTitle('Logements à Réaliser');
+
+
+
+$objSheet->setCellValue('A1', 'Adresse du Chantier');
+$objSheet->setCellValue('B1', 'Charge d\'op');
+$objSheet->setCellValue('C1', 'M.O.E');
+$objSheet->setCellValue('D1', 'Type d\'opération');
+$objSheet->setCellValue('E1', 'Pilote O.P.C');
+$objSheet->setCellValue('F1', 'Nature Opération');
+$objSheet->setCellValue('G1', 'Etat de la demande');
+$objSheet->setCellValue('H1', 'Etat du logement');
+
+foreach ($ListeLogement as $logement) {
+    foreach ($logementARealiser as $demande) {
+        if ($logement->idlogement === $demande->idlogementconcerne) {
+            $objSheet->setCellValueByColumnAndRow(0, $ligneCourante, $logement->adresse);
+            $objSheet->setCellValueByColumnAndRow(1, $ligneCourante, $logement->chargeopclient);
+            $objSheet->setCellValueByColumnAndRow(2, $ligneCourante, $logement->moe);
+            $objSheet->setCellValueByColumnAndRow(3, $ligneCourante, $logement->typeoperation);
+            $objSheet->setCellValueByColumnAndRow(4, $ligneCourante, $logement->piloteopc);
+            $objSheet->setCellValueByColumnAndRow(5, $ligneCourante, $demande->natureoperation);
+            $objSheet->setCellValueByColumnAndRow(6, $ligneCourante, $demande->etatdemande);
+            $objSheet->setCellValueByColumnAndRow(7, $ligneCourante, $demande->etatlogement);
+
+            $ligneCourante++;
+        }
+
+    }
+
+
+// autosize the columns
+
+    $objSheet->getColumnDimension('A')->setAutoSize(true);
+    $objSheet->getColumnDimension('B')->setAutoSize(true);
+    $objSheet->getColumnDimension('C')->setAutoSize(true);
+    $objSheet->getColumnDimension('D')->setAutoSize(true);
+    $objSheet->getColumnDimension('E')->setAutoSize(true);
+    $objSheet->getColumnDimension('F')->setAutoSize(true);
+    $objSheet->getColumnDimension('G')->setAutoSize(true);
+    $objSheet->getColumnDimension('H')->setAutoSize(true);
+    $objSheet->getColumnDimension('I')->setAutoSize(true);
+    $objSheet->getColumnDimension('J')->setAutoSize(true);
+    $objSheet->getColumnDimension('K')->setAutoSize(true);
+    $objSheet->getColumnDimension('L')->setAutoSize(true);
+    $objSheet->getColumnDimension('M')->setAutoSize(true);
+    $objSheet->getColumnDimension('N')->setAutoSize(true);
+
+}
+
+
+$ligneCourante = 3;
+
+$objPHPExcel->createSheet();
+$objPHPExcel->setActiveSheetIndex(3);
+$objSheet = $objPHPExcel->getActiveSheet();
+$objSheet->setTitle('Logements en Préparation');
+
+
+
+$objSheet->setCellValue('A1', 'Adresse du Chantier');
+$objSheet->setCellValue('B1', 'Charge d\'op');
+$objSheet->setCellValue('C1', 'M.O.E');
+$objSheet->setCellValue('D1', 'Type d\'opération');
+$objSheet->setCellValue('E1', 'Pilote O.P.C');
+$objSheet->setCellValue('F1', 'Nature Opération');
+$objSheet->setCellValue('G1', 'Etat de la demande');
+$objSheet->setCellValue('H1', 'Etat du logement');
+
+foreach ($ListeLogement as $logement) {
+    foreach ($logementEnPréparation as $demande) {
+        if ($logement->idlogement === $demande->idlogementconcerne) {
+            $objSheet->setCellValueByColumnAndRow(0, $ligneCourante, $logement->adresse);
+            $objSheet->setCellValueByColumnAndRow(1, $ligneCourante, $logement->chargeopclient);
+            $objSheet->setCellValueByColumnAndRow(2, $ligneCourante, $logement->moe);
+            $objSheet->setCellValueByColumnAndRow(3, $ligneCourante, $logement->typeoperation);
+            $objSheet->setCellValueByColumnAndRow(4, $ligneCourante, $logement->piloteopc);
+            $objSheet->setCellValueByColumnAndRow(5, $ligneCourante, $demande->natureoperation);
+            $objSheet->setCellValueByColumnAndRow(6, $ligneCourante, $demande->etatdemande);
+            $objSheet->setCellValueByColumnAndRow(7, $ligneCourante, $demande->etatlogement);
+
+            $ligneCourante++;
+        }
+
+    }
+
+
+// autosize the columns
+
+    $objSheet->getColumnDimension('A')->setAutoSize(true);
+    $objSheet->getColumnDimension('B')->setAutoSize(true);
+    $objSheet->getColumnDimension('C')->setAutoSize(true);
+    $objSheet->getColumnDimension('D')->setAutoSize(true);
+    $objSheet->getColumnDimension('E')->setAutoSize(true);
+    $objSheet->getColumnDimension('F')->setAutoSize(true);
+    $objSheet->getColumnDimension('G')->setAutoSize(true);
+    $objSheet->getColumnDimension('H')->setAutoSize(true);
+    $objSheet->getColumnDimension('I')->setAutoSize(true);
+    $objSheet->getColumnDimension('J')->setAutoSize(true);
+    $objSheet->getColumnDimension('K')->setAutoSize(true);
+    $objSheet->getColumnDimension('L')->setAutoSize(true);
+    $objSheet->getColumnDimension('M')->setAutoSize(true);
+    $objSheet->getColumnDimension('N')->setAutoSize(true);
+
+}
+
+
+$ligneCourante = 3;
+
+$objPHPExcel->createSheet();
+$objPHPExcel->setActiveSheetIndex(4);
+$objSheet = $objPHPExcel->getActiveSheet();
+$objSheet->setTitle('Logements en Travaux');
+
+
+
+$objSheet->setCellValue('A1', 'Adresse du Chantier');
+$objSheet->setCellValue('B1', 'Charge d\'op');
+$objSheet->setCellValue('C1', 'M.O.E');
+$objSheet->setCellValue('D1', 'Type d\'opération');
+$objSheet->setCellValue('E1', 'Pilote O.P.C');
+$objSheet->setCellValue('F1', 'Nature Opération');
+$objSheet->setCellValue('G1', 'Etat de la demande');
+$objSheet->setCellValue('H1', 'Etat du logement');
+
+foreach ($ListeLogement as $logement) {
+    foreach ($logementEnTravaux as $demande) {
+        if ($logement->idlogement === $demande->idlogementconcerne) {
+            $objSheet->setCellValueByColumnAndRow(0, $ligneCourante, $logement->adresse);
+            $objSheet->setCellValueByColumnAndRow(1, $ligneCourante, $logement->chargeopclient);
+            $objSheet->setCellValueByColumnAndRow(2, $ligneCourante, $logement->moe);
+            $objSheet->setCellValueByColumnAndRow(3, $ligneCourante, $logement->typeoperation);
+            $objSheet->setCellValueByColumnAndRow(4, $ligneCourante, $logement->piloteopc);
+            $objSheet->setCellValueByColumnAndRow(5, $ligneCourante, $demande->natureoperation);
+            $objSheet->setCellValueByColumnAndRow(6, $ligneCourante, $demande->etatdemande);
+            $objSheet->setCellValueByColumnAndRow(7, $ligneCourante, $demande->etatlogement);
+
+            $ligneCourante++;
+        }
+
+    }
+
+
+// autosize the columns
+
+    $objSheet->getColumnDimension('A')->setAutoSize(true);
+    $objSheet->getColumnDimension('B')->setAutoSize(true);
+    $objSheet->getColumnDimension('C')->setAutoSize(true);
+    $objSheet->getColumnDimension('D')->setAutoSize(true);
+    $objSheet->getColumnDimension('E')->setAutoSize(true);
+    $objSheet->getColumnDimension('F')->setAutoSize(true);
+    $objSheet->getColumnDimension('G')->setAutoSize(true);
+    $objSheet->getColumnDimension('H')->setAutoSize(true);
+    $objSheet->getColumnDimension('I')->setAutoSize(true);
+    $objSheet->getColumnDimension('J')->setAutoSize(true);
+    $objSheet->getColumnDimension('K')->setAutoSize(true);
+    $objSheet->getColumnDimension('L')->setAutoSize(true);
+    $objSheet->getColumnDimension('M')->setAutoSize(true);
+    $objSheet->getColumnDimension('N')->setAutoSize(true);
+
+}
+
+
+$ligneCourante = 3;
+
+$objPHPExcel->createSheet();
+$objPHPExcel->setActiveSheetIndex(5);
+$objSheet = $objPHPExcel->getActiveSheet();
+$objSheet->setTitle('Logements Receptionné');
+
+
+
+$objSheet->setCellValue('A1', 'Adresse du Chantier');
+$objSheet->setCellValue('B1', 'Charge d\'op');
+$objSheet->setCellValue('C1', 'M.O.E');
+$objSheet->setCellValue('D1', 'Type d\'opération');
+$objSheet->setCellValue('E1', 'Pilote O.P.C');
+$objSheet->setCellValue('F1', 'Nature Opération');
+$objSheet->setCellValue('G1', 'Etat de la demande');
+$objSheet->setCellValue('H1', 'Etat du logement');
+
+foreach ($ListeLogement as $logement) {
+    foreach ($logementReceptioné as $demande) {
+        if ($logement->idlogement === $demande->idlogementconcerne) {
+            $objSheet->setCellValueByColumnAndRow(0, $ligneCourante, $logement->adresse);
+            $objSheet->setCellValueByColumnAndRow(1, $ligneCourante, $logement->chargeopclient);
+            $objSheet->setCellValueByColumnAndRow(2, $ligneCourante, $logement->moe);
+            $objSheet->setCellValueByColumnAndRow(3, $ligneCourante, $logement->typeoperation);
+            $objSheet->setCellValueByColumnAndRow(4, $ligneCourante, $logement->piloteopc);
+            $objSheet->setCellValueByColumnAndRow(5, $ligneCourante, $demande->natureoperation);
+            $objSheet->setCellValueByColumnAndRow(6, $ligneCourante, $demande->etatdemande);
+            $objSheet->setCellValueByColumnAndRow(7, $ligneCourante, $demande->etatlogement);
+
+            $ligneCourante++;
+        }
+
+    }
+
+
+// autosize the columns
+
+    $objSheet->getColumnDimension('A')->setAutoSize(true);
+    $objSheet->getColumnDimension('B')->setAutoSize(true);
+    $objSheet->getColumnDimension('C')->setAutoSize(true);
+    $objSheet->getColumnDimension('D')->setAutoSize(true);
+    $objSheet->getColumnDimension('E')->setAutoSize(true);
+    $objSheet->getColumnDimension('F')->setAutoSize(true);
+    $objSheet->getColumnDimension('G')->setAutoSize(true);
+    $objSheet->getColumnDimension('H')->setAutoSize(true);
+    $objSheet->getColumnDimension('I')->setAutoSize(true);
+    $objSheet->getColumnDimension('J')->setAutoSize(true);
+    $objSheet->getColumnDimension('K')->setAutoSize(true);
+    $objSheet->getColumnDimension('L')->setAutoSize(true);
+    $objSheet->getColumnDimension('M')->setAutoSize(true);
+    $objSheet->getColumnDimension('N')->setAutoSize(true);
+
+}
+
+
+header('Content-Type: application/vnd.ms-excel');
+header('Content-Disposition: attachment;filename="Compte_Rendu_listes_Logements.xlsx"');
+//header('Cache-Control: max-age=0');
+ob_end_clean();
+$objWriter->save('php://output');
+exit;
+
+?>

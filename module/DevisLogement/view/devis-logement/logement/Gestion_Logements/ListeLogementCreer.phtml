@@ -1,0 +1,30 @@
+<h1>Liste des logements crées</h1>
+
+<div class="button"><a href="<?= $this->url('logements', ['action' => 'index']) ?>"><i class="fas fa-plus"></i>Retour à
+        l'acceuil</a></div><br>
+
+<table class="table" style="display:block">
+    <tr>
+        <th>Ville</th>
+        <th>Cite</th>
+        <th>Numero de la rue</th>
+        <th>Nom de la rue</th>
+        <th>adresse de la rue</th>
+        <th>code postal</th>
+        <th>chargé d'opération</th>
+        <th>MOE</th>
+        <th> Pilote SOMA BAT concerné</th>
+    </tr>
+    <?php foreach ($listeLogement as $logement) { ?>
+    <tr>
+        <td><?= $this->escapeHtml($logement->ville ) ?></td>
+        <td><?= $this->escapeHtml($logement->cite) ?></td>
+        <td><?= $this->escapeHtml($logement->numerorue) ?></td>
+        <td><?= $this->escapeHtml($logement->rue) ?></td>
+        <td><?= $this->escapeHtml($logement->adresse) ?></td>
+        <td><?= $this->escapeHtml($logement->codepostal) ?></td>
+        <td><?= $this->escapeHtml($logement->chargeop) ?></td>
+        <td><?= $this->escapeHtml($logement->moe) ?></td>
+        <td><?= $this->escapeHtml($logement->pilotegpbat) ?></td>
+    </tr>
+<?php } ?>

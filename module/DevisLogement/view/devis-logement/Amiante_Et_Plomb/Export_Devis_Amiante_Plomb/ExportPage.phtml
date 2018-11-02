@@ -1,0 +1,105 @@
+
+
+<?php
+require("module/DevisLogement/view/devis-logement/logement/Master_Disptaching/FonctionsCalculMasterDispatching.php");
+require_once 'module/DevisLogement/view/devis-logement/logement/PHPExcel-1.8/Classes/PHPExcel.php';
+require_once 'module/DevisLogement/view/devis-logement/logement/PHPExcel-1.8/Classes/PHPExcel/IOFactory.php';
+
+$objPHPExcel = new PHPExcel;
+// set default font
+$objPHPExcel->getDefaultStyle()->getFont()->setName('Calibri');
+
+// set default font size
+
+$objPHPExcel->getDefaultStyle()->getFont()->setSize(10);
+// create the writer
+
+$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, "Excel2007");
+
+$nbFeuille = 0;
+$ligneCourante = 3;
+
+foreach ($listeNomLot as $lot) {
+    $objPHPExcel->createSheet();
+    $objPHPExcel->setActiveSheetIndex($nbFeuille);
+    $objSheet = $objPHPExcel->getActiveSheet();
+    if($lot !=null) $objSheet->setTitle($lot);
+
+
+    $objSheet->setCellValue('A1','Code M&C');
+    $objSheet->setCellValue('B1','Code GPB');
+    $objSheet->setCellValue('C1','Désignation');
+    $objSheet->setCellValue('D1','UN');
+    $objSheet->setCellValue('E1','Prix Unitaire HT TCE');
+    $objSheet->setCellValue('F1','moyenne des prix Unitaire Hors Taxe moyen sur tous les dispatch');
+    $objSheet->setCellValue('G1','Marge entre TCE et dispatchs, en euros');
+    $objSheet->setCellValue('H1','Marge entre TCE et dispatchs, en %');
+    $objSheet->setCellValue('I1','Nombre de fois où cette référence apparait');
+    $objSheet->setCellValue('J1','ratio nombre de fois où cette référence apparait sur le nombre de dispatch');
+    $objSheet->setCellValue('K1','Pourcentage de dispatch ou se trouve ce code, en %');
+    $objSheet->setCellValue('L1','Quantite totale de cette référence sur tous les dispatchs');
+    $objSheet->setCellValue('M1','Moyenne des quantite de ce code sur les dispatchs concernés');
+    $objSheet->setCellValue('N1','ratio des quantités sur le nombre de projet ou se trouve la référence');
+
+
+
+
+
+    foreach ($dataTable as $data) {
+        $codeLot = $lot[0] . $lot[1] . $lot[2];
+        $codeMcLot = strval($data->codemetc);
+        $intitCode = $codeMcLot[0] . $codeMcLot[1] . $codeMcLot[2];
+        if ($codeLot == $intitCode) {
+            $objSheet->setCellValueByColumnAndRow(0, $ligneCourante,$data->codemetc);
+            $objSheet->setCellValueByColumnAndRow(1, $ligneCourante,$data->numordre);
+            $objSheet->setCellValueByColumnAndRow(2, $ligneCourante,$data->designation);
+            $objSheet->setCellValueByColumnAndRow(3, $ligneCourante,$data->un);
+            $objSheet->setCellValueByColumnAndRow(4, $ligneCourante,PrixClientParCodeMetC($data->codemetc));
+            $objSheet->setCellValueByColumnAndRow(5, $ligneCourante,MoyennePrixParIdparPrixUnitaire($data->codemetc));
+            $objSheet->setCellValueByColumnAndRow(6, $ligneCourante,MargePrixDevisClientEtSomaBatEnEuros($data->codemetc));
+            $objSheet->setCellValueByColumnAndRow(7, $ligneCourante,MargePrixDevisClientEtSomaBat($data->codemetc));
+            $objSheet->setCellValueByColumnAndRow(8, $ligneCourante,NombrecodeMetCpareil($data->codemetc));
+            $objSheet->setCellValueByColumnAndRow(9, $ligneCourante,ratioNbCodemetcsurNbDispatch($data->codemetc));
+            $objSheet->setCellValueByColumnAndRow(10, $ligneCourante,RationombreréférencesurnombredispatchousetrouvelaréférencePourcentage($data->codemetc));
+            $objSheet->setCellValueByColumnAndRow(11, $ligneCourante,SumQuantiteParRef($data->codemetc));
+            $objSheet->setCellValueByColumnAndRow(12, $ligneCourante,MoyenneQuantitesurNbProjetousetrouvelaRef($data->codemetc));
+            $objSheet->setCellValueByColumnAndRow(13, $ligneCourante,ratiodesquantitéssurnombreprojetousetrouvelareference($data->codemetc));
+
+            $ligneCourante++;
+        }
+
+    }
+
+    $ligneCourante =3;
+    $nbFeuille++;
+
+// autosize the columns
+
+    $objSheet->getColumnDimension('A')->setAutoSize(true);
+    $objSheet->getColumnDimension('B')->setAutoSize(true);
+    $objSheet->getColumnDimension('C')->setAutoSize(true);
+    $objSheet->getColumnDimension('D')->setAutoSize(true);
+    $objSheet->getColumnDimension('E')->setAutoSize(true);
+    $objSheet->getColumnDimension('F')->setAutoSize(true);
+    $objSheet->getColumnDimension('G')->setAutoSize(true);
+    $objSheet->getColumnDimension('H')->setAutoSize(true);
+    $objSheet->getColumnDimension('I')->setAutoSize(true);
+    $objSheet->getColumnDimension('J')->setAutoSize(true);
+    $objSheet->getColumnDimension('K')->setAutoSize(true);
+    $objSheet->getColumnDimension('L')->setAutoSize(true);
+    $objSheet->getColumnDimension('M')->setAutoSize(true);
+    $objSheet->getColumnDimension('N')->setAutoSize(true);
+
+}
+
+
+
+
+header('Content-Type: application/vnd.ms-excel');
+header('Content-Disposition: attachment;filename="Compte_Rendu_Master_Dispatching.xlsx"');
+//header('Cache-Control: max-age=0');
+ob_end_clean();
+$objWriter->save('php://output');
+exit;
+
+?>

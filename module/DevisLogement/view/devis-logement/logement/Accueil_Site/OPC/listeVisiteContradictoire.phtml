@@ -1,0 +1,79 @@
+<style>
+    .circle {
+        height: 25px;
+        width: 25px;
+        background-color: black;
+        border-radius: 50%;
+    }
+</style>
+
+
+<h1>Liste des visites contradictoires par rapport au logements disponibles</h1>
+
+<div class="button"><a href="<?= $this->url('logements', ['action' => 'index']) ?>"><i class="fas fa-plus"></i>Retour à
+        l'acceuil</a></div><br>
+
+<input class="tri clear" id="clear-logements" type="submit" value="Clear" onclick="clearSearch('logements')"/>
+<input class="tri search-button" id="search-button" type="submit" value="Rechercher" onclick="searchBar('logements')"/>
+<input class="tri search" id="search" name="string" type="text" value=""/>
+
+
+<p class="save" onclick="searchStringTableLogement('logements','étude de faisabilité client en cours')">Logements en
+    étude Client</p>
+
+<p class="save" onclick="searchStringTableLogement('logements','Préparation à lancer')">Logements à Réalisé</p>
+
+<p class="save" onclick="searchStringTableLogement('logements','préparation en cours')">Logements en Préparation</p>
+
+<p class="save" onclick="searchStringTableLogement('logements','travaux en cours')">Logements en Cours</p>
+
+<p class="save" onclick="searchStringTableLogement('logements','logement réceptionné')">Logements Réceptionné</p>
+
+<table class="table" id="tableau-logements" style="display:block">
+
+    <tr>
+        <th>adresse du chantier</th>
+        <th>Charge d'OP</th>
+        <th>MOE</th>
+        <th>Pilote</th>
+        <th>Visite Contradictoire</th>
+        <th>Date de visite</th>
+        <th>Semaine</th>
+        <th>Commentaires</th>
+    </tr>
+    <?php
+    $line = 0;
+    foreach ($listeLogement as $logement) {
+    $line++; ?>
+    <tr id="tableau-visiteContradictoire-<?php echo $line ?>">
+        <td><?= $this->escapeHtml($logement->adresse) ?></td>
+        <td contenteditable="true"><?= $this->escapeHtml($logement->chargeopclient) ?></td>
+        <td contenteditable="true"><?= $this->escapeHtml($logement->moe) ?></td>
+        <td contenteditable="true"><?= $this->escapeHtml($logement->piloteopc) ?></td>
+        <?php foreach ($listeVisiteContradictoire as $visite) {
+            if ($logement->idlogement == $visite->idlogementconcerne) { ?>
+                <td><select id="etatvisitecontradictoire-<?php echo $line ?>">
+                        <option value="" selected disabled
+                                hidden><?= $this->escapeHtml($visite->etatvisitecontradictoire) ?></option>
+                        <option value="1">Réalisée</option>
+                        <option value="2">A programmer</option>
+                        <option value="3">Programméf</option>
+                    </select>
+                </td>
+                <td contenteditable="true"><input type="date" id="start" name="trip" value="<?php echo $visite->datevisitecontradictoire ?>"</td>
+                <td contenteditable="true"><?= $this->escapeHtml($visite->semaine) ?></td>
+                <td contenteditable="true"> <?= $this->escapeHtml($visite->commentaires) ?></td>
+                <td><img src="/img/save.png" class="save"
+                         onclick="edit_table_visite_contradictoire('<?php echo $line ?>')"/>
+                    <script>coloring("tableau-logements");
+                        strippedTable("tableau-logements");</script>
+                </td>
+            <?php } ?>
+            <?php
+        }
+        }
+        ?>
+    </tr>
+
+</table>
+

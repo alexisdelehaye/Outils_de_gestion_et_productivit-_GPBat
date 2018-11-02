@@ -1,0 +1,22 @@
+<?php
+
+$title = 'supprimer ce post';
+$url   = $this->url('Blog', ['action' => 'delete', 'id' => $id]);
+
+$this->headTitle($title);
+
+?>
+<h1><?= $this->escapeHtml($title) ?></h1>
+<p>
+    Êtes-vous sûr de vouloir le poste suivant : 
+    <b><?= $this->escapeHtml($poste->titre) ?></b>
+	datant du : 
+    <b><?= $this->escapeHtml($poste->date) ?></b>
+</p>
+<form action="<?= $url ?>" method="post">
+    <div class="form-group">
+        <input type="hidden" name="id" value="<?= (int) $poste->id ?>" />
+        <input type="submit" class="btn btn-danger" name="del" value="Oui" />
+        <input type="submit" class="btn btn-success" name="del" value="Non" />
+    </div>
+</form>

@@ -1,0 +1,24 @@
+<?php
+
+
+$title = 'resultat de la somme des prix Unitaires par rapport à la référence demandé';
+$this->headTitle($title);
+
+?>
+<h1><?= $this->escapeHtml($title) ?></h1>
+
+<?php
+
+function SumPrixUnParRef($ref)
+{
+
+    $conn = pg_connect("host=localhost port=5432 dbname=postgres user=postgres ") or die(pg_last_error());
+    $sql= "select SUM ('pu') from devtce where idcode LIKE '$ref%'";
+    $result = pg_query($conn, $sql);
+    $test = pg_fetch_row($result);
+    echo $test[0];
+}
+
+?>
+
+<p>Somme des prix unitaires par rapport à la référence : <?= $this->escapeHtml($Reference) ?> => <?php SumPrixUnParRef($this->escapeHtml($Reference)); ?> €</p>

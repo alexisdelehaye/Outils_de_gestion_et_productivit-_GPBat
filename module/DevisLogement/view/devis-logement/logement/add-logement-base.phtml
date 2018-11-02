@@ -1,0 +1,113 @@
+<?php
+
+$title = 'Ajouter un logement';
+$this->headTitle($title);
+
+?>
+<h1><?= $this->escapeHtml($title) ?></h1>
+<?php
+
+
+$Ville = $form->get('ville');
+$Ville->setAttribute('class', 'form-control');
+$Ville->setAttribute('placeholder', 'entrez le nom de la ville');
+
+$Cite = $form->get('cite');
+$Cite->setAttribute('class', 'form-control');
+$Cite->setAttribute('placeholder', 'Entrez le nom de la cité');
+
+$NumeroRue = $form->get('numerorue');
+$NumeroRue->setAttribute('class', 'form-control');
+$NumeroRue->setAttribute('placeholder', 'Entrez le numéro de rue');
+
+$Rue = $form->get('rue');
+$Rue->setAttribute('class', 'form-control');
+$Rue->setAttribute('placeholder', 'Entrez la Rue');
+
+$codepostal = $form->get('codepostal');
+$codepostal->setAttribute('class', 'form-control');
+$codepostal->setAttribute('placeholder', 'Entrez le code postal du logement');
+
+$moe = $form->get('moe');
+$moe->setAttribute('class', 'form-control');
+$moe->setAttribute('placeholder', 'Entrez le nom du moe concerné par ce logement');
+
+$chargeop = $form->get('chargeop');
+$chargeop->setAttribute('class', 'form-control');
+$chargeop->setAttribute('placeholder', 'Entrez le chargé d\'opération dédié');
+
+
+$pilotegpbat = $form->get('pilotegpbat');
+$pilotegpbat->setAttribute('class', 'form-control');
+$pilotegpbat->setAttribute('placeholder', 'Entrez le pilote GPBAT concerné par ce logement');
+
+$submit = $form->get('submit');
+$submit->setAttribute('class', 'btn btn-primary');
+$submit->setAttribute('value', 'créer ce logement');
+
+
+
+$form->setAttribute('action', $this->url('logements', ['action' => 'addLogementBase']));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+
+?>
+<br/><div class="button"><a href="<?= $this->url('logements', ['action' => 'index']) ?>"><i class="fas fa-plus"></i>Retour à
+        l'acceuil</a></div>
+<br>
+<br>
+
+<div class="form-group" id="froala-editor">
+    <?= $this->formLabel($Ville) ?>
+    <?= $this->formElement($Ville) ?>
+    <?= $this->formElementErrors()->render($Ville, ['class' => 'help-block']) ?>
+</div>
+<div class="form-group" id="froala-editor">
+    <?= $this->formLabel($Cite) ?>
+    <?= $this->formElement($Cite) ?>
+    <?= $this->formElementErrors()->render($Cite, ['class' => 'help-block']) ?>
+</div>
+<div class="form-group" id="froala-editor">
+    <?= $this->formLabel($NumeroRue) ?>
+    <?= $this->formElement($NumeroRue) ?>
+    <?= $this->formElementErrors()->render($NumeroRue, ['class' => 'help-block']) ?>
+</div>
+
+<div class="form-group" id="froala-editor">
+    <?= $this->formLabel($Rue) ?>
+    <?= $this->formElement($Rue) ?>
+    <?= $this->formElementErrors()->render($Rue, ['class' => 'help-block']) ?>
+</div>
+
+
+<div class="form-group" id="froala-editor">
+    <?= $this->formLabel($codepostal) ?>
+    <?= $this->formElement($codepostal) ?>
+    <?= $this->formElementErrors()->render($codepostal, ['class' => 'help-block']) ?>
+</div>
+
+<div class="form-group" id="froala-editor">
+    <?= $this->formLabel($chargeop) ?>
+    <?= $this->formElement($chargeop) ?>
+    <?= $this->formElementErrors()->render($chargeop, ['class' => 'help-block']) ?>
+</div>
+<div class="form-group" id="froala-editor">
+    <?= $this->formLabel($moe) ?>
+    <?= $this->formElement($moe) ?>
+    <?= $this->formElementErrors()->render($moe, ['class' => 'help-block']) ?>
+</div>
+
+<div class="form-group" id="froala-editor">
+    <?= $this->formLabel($pilotegpbat) ?>
+    <?= $this->formElement($pilotegpbat) ?>
+    <?= $this->formElementErrors()->render($pilotegpbat, ['class' => 'help-block']) ?>
+</div>
+
+
+<?php
+
+echo $this->formSubmit($submit);
+echo $this->form()->closeTag();
+
+?>

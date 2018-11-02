@@ -1,0 +1,40 @@
+<?php
+include("AjoutDansBDAmiantePlomb.php");
+?>
+<h1>Ajouter votre BORDEREAU MAISONS & CITES</h1>
+<br/>
+
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" enctype= "multipart/form-data">
+    <input type="file" name="csv_file">
+    <br/>
+    <input type="submit" name="submit">
+</form>
+<?php
+if(isset($_POST["submit"])) {
+    if(isset($_FILES["csv_file"]) && $_FILES["csv_file"]["size"] > 0) {
+        fileUpload();
+    }
+}
+
+function fileUpload ()
+{
+
+    $target_dir = "module/DevisLogement/view/devis-logement/Amiante_Et_Plomb/Fichiers_Devis_Amiante_Plomb/";
+    $file_name = $_FILES['csv_file']['name'];
+    $file_tmp = $_FILES['csv_file']['tmp_name'];
+    $adresseFichier = $target_dir . $file_name;
+
+    if (! file_exists($adresseFichier)) {
+        if (move_uploaded_file($file_tmp, $target_dir . $file_name)) {
+            echo "<h1>Vous venez d'ajouter le fichier <?php echo $file_name?> dans la base de données</h1>";
+            AjouterDataMaisonEtCitesDansBD($adresseFichier,$file_name);
+        }
+    }else {
+        echo "<h1>Votre devis  <?php echo $file_name?> se trouve déjà dans la base de données</h1>";
+    }
+
+
+
+}
+?>
+<br><div class="button"><a href="<?= $this->url('logements', ['action' => 'index']) ?>"><i class="fas fa-plus"></i>Retour à l'acceuil</a></div><br>

@@ -1,0 +1,56 @@
+<?php
+
+$title = 'Paramétrage du PAFI au logement concerné';
+$this->headTitle($title);
+
+?>
+<h1><?= $this->escapeHtml($title) ?></h1>
+<?php
+
+
+$etatamiante = $form->get('etatamiante');
+$etatamiante->setAttribute('class', 'form-control');
+$etatamiante->setAttribute('placeholder', 'etat de l\'amiante');
+
+
+$dateintervention = $form->get('dateintervention');
+$dateintervention->setAttribute('class', 'form-control');
+$dateintervention->setAttribute('placeholder', 'date intervention');
+
+
+$submit = $form->get('submit');
+$submit->setAttribute('class', 'btn btn-primary');
+$submit->setAttribute('value', 'créer ce pafi pour ce logement');
+
+
+
+$form->setAttribute('action', $this->url('logements', ['action' => 'addAmiante','id'=>$id]));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+
+?>
+<br/><div class="button"><a href="<?= $this->url('logements', ['action' => 'index']) ?>"><i class="fas fa-plus"></i>Retour à
+        l'acceuil</a></div>
+<br>
+<br>
+
+<div class="form-group" id="froala-editor">
+    <?= $this->formLabel($etatamiante) ?>
+    <?= $this->formElement($etatamiante) ?>
+    <?= $this->formElementErrors()->render($etatamiante, ['class' => 'help-block']) ?>
+</div>
+
+
+<div class="form-group" id="froala-editor">
+    <?= $this->formLabel($dateintervention) ?>
+    <?= $this->formElement($dateintervention) ?>
+    <?= $this->formElementErrors()->render($dateintervention, ['class' => 'help-block']) ?>
+</div>
+
+<?php
+
+echo $this->formSubmit($submit);
+echo $this->form()->closeTag();
+
+?>

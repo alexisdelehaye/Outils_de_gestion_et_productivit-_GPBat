@@ -1,0 +1,21 @@
+<div class="poste">
+    <div class="poste-boddy">
+		<div class="poste-header">
+        <h2 class="poste-title"><?= $this->escapeHtml($details->titre) ?></h2><div class="date"><?= $this->escapeHtml($details->date) ?></div>
+		<div class="poste-tool right">
+			<a href="<?= $this->url('Blog', ['action' => 'edit', 'id' => $details->id]) ?>"><i class="fas fa-edit"></i>EDITER</a>
+			<a href="<?= $this->url('Blog', ['action' => 'delete', 'id' => $details->id]) ?>"><i class="fas fa-trash-alt"></i>SUPPRIMER</a>
+		</div>
+		</div>
+        <!--<h3 class="poste-title"><?= $this->escapeHtml($details->auteur) ?></h3>-->
+		<div class="poste-contenu">
+			<img src="/img/cat.jpg" width="100%"></img>
+		<div class="poste-footer">
+			<div class="resume"><?= $this->escapeHtml($details->texte) ?></div><br>	
+			<div class="poste-tool left">
+				<a href="<?= $this->url('Blog', ['action' => 'details', 'id' => $details->id]) ?>"><i class="far fa-comment"></i>Ajouter un commentaire</a>
+			</div>
+		</div>
+		</div>
+    </div>     
+</div>

@@ -1,0 +1,55 @@
+<?php
+
+$title = 'Paramétrage du PAFI au logement concerné';
+$this->headTitle($title);
+
+?>
+<h1><?= $this->escapeHtml($title) ?></h1>
+<?php
+
+
+$etatenvoiepafi = $form->get('etatenvoiepafi');
+$etatenvoiepafi->setAttribute('class', 'form-control');
+$etatenvoiepafi->setAttribute('placeholder', 'ETAT de l\' envoie du pafi');
+
+/*
+$dateenvoiepafi = $form->get('dateenvoiepafi');
+$dateenvoiepafi->setAttribute('class', 'form-control');
+$dateenvoiepafi->setAttribute('placeholder', 'date d\'envoie du PAFI');
+
+$datereelretourpafi = $form->get('datereelretourpafi');
+$datereelretourpafi->setAttribute('class', 'form-control');
+$datereelretourpafi->setAttribute('placeholder', 'date réel du retour PAFI');
+
+*/
+
+$submit = $form->get('submit');
+$submit->setAttribute('class', 'btn btn-primary');
+$submit->setAttribute('value', 'créer ce pafi pour ce logement');
+
+
+
+$form->setAttribute('action', $this->url('logements', ['action' => 'addPafi']));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+
+?>
+<br/><div class="button"><a href="<?= $this->url('logements', ['action' => 'index']) ?>"><i class="fas fa-plus"></i>Retour à
+        l'acceuil</a></div>
+<br>
+<br>
+
+<div class="form-group" id="froala-editor">
+    <?= $this->formLabel($etatenvoiepafi) ?>
+    <?= $this->formElement($etatenvoiepafi) ?>
+    <?= $this->formElementErrors()->render($etatenvoiepafi, ['class' => 'help-block']) ?>
+</div>
+
+
+<?php
+
+echo $this->formSubmit($submit);
+echo $this->form()->closeTag();
+
+?>

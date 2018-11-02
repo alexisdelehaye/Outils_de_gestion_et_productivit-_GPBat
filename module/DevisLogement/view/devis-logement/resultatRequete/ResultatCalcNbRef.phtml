@@ -1,0 +1,10 @@
+<?php
+
+
+$title = 'resultat du nombre de référence selon votre référence demandé';
+$this->headTitle($title);
+
+?>
+<h1><?= $this->escapeHtml($title) ?></h1>
+
+<p>Nombre de référence : <?= $this->escapeHtml($produitRechercher->description) ?></p>

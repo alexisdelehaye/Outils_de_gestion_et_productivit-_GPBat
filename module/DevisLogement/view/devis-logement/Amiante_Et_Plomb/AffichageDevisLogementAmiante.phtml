@@ -1,0 +1,42 @@
+<?php require ("module/DevisLogement/view/devis-logement/Amiante_Et_Plomb/FonctionCalculDevisAmianteEtPlomb.php") ?>
+
+<h1>Détails des différents Devis Amiante et plomb</h1>
+
+<?php foreach ($listeLieuxTravauxAmiante as $lieu) { ?>
+
+<p><?php  echo $lieu?></p>
+<br/>
+
+<table class="table" style="display:block">
+    <tr>
+        <th>Référence</th>
+        <th>Désignation</th>
+        <th>Emplacement</th>
+        <th>Quantité</th>
+        <th>UN</th>
+        <th>PU HT</th>
+        <th>total HT </th>
+        <th>Nombre de fois où se trouve cette référence</th>
+        <th>Ratio du nombre de fois où cette référence apparait sur le nombre total de référence</th>
+
+    </tr>
+    <br><div class="button"><a href="<?= $this->url('logements', ['action' => 'index']) ?>"><i class="fas fa-plus"></i>Retour à l'acceuil</a></div><br>
+    <?php foreach ($listeAmiante as $amiante) {
+
+       if ($amiante->nomchantier ==  $lieu) { ?>
+    <tr>
+        <td><?= $this->escapeHtml($amiante->reference) ?></td>
+        <td><?= $this->escapeHtml($amiante->designation) ?></td>
+        <td><?= $this->escapeHtml($amiante->emplacement) ?></td>
+        <td><?= $this->escapeHtml($amiante->quantite) ?></td>
+        <td><?= $this->escapeHtml($amiante->un) ?></td>
+        <td><?= $this->escapeHtml($amiante->puht) ?></td>
+        <td><?= $this->escapeHtml($amiante->totalht) ?></td>
+        <th><?php  echo nombreDeRefparTableBDD($amiante->reference,'devislogementamiante');?></th>
+        <th><?php  echo ratioNombreRefsurNombreTotaleReference($amiante->reference,'devislogementamiante');?></th>
+
+    </tr>
+<?php }
+    }
+}
+?>

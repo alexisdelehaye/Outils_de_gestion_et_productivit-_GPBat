@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<div class="nav">
+    <a href="<?= $this->url('logements', ['action' => 'Accueil']) ?>" ><img class="logo_nav" src="/img/somabim.png"></a>
+    <div class="navbar2">
+
+       <img class="barre" src="/img/navbar.png">
+
+        <a class="active" href="<?= $this->url('logements', ['action' => 'OPC']) ?>">Accueil</a>
+        <a href="#">Tableau de Bord</a>
+        <a href="#">Logements</a>
+        <a href="#">Partenaires</a>
+        <a href="<?= $this->url('logements', ['action' => 'OPCProgrammation']) ?>">Programmation</a>
+        <a href="#">Etudes</a>
+        <a href="#">Production</a>
+        <a href="#">Documentation</a>
+        <a href="#">Finances</a>
+
+    </div>
+</div>
+
+
+<div class="icones">
+    <div class="icone-line">
+
+        <div class="icone">
+            <a href="#"><img src="/img/board.png"></a>
+            <p>Tableau de Bord</p>
+        </div>
+        <div class="icone">
+            <a href="#"><img src="/img/logement.png"></a>
+            <p>Logements</p>
+        </div>
+        <div class="icone">
+            <a href="#"><img src="/img/partenaires.png"></a>
+            <p>Partenaires</p>
+        </div>
+
+
+    </div>
+
+    <div class="icone-line">
+
+        <div class="icone">
+            <a href="<?= $this->url('logements', ['action' => 'OPCProgrammation']) ?>"><img src="/img/calendrier.png"></a>
+            <p>Programmation</p>
+        </div>
+        <div class="icone">
+            <a href="#"><img src="/img/etudes.png"></a>
+            <p>Etudes</p>
+        </div>
+        <div class="icone">
+            <a href="#"><img src="/img/production.png"></a>
+            <p>Production</p>
+        </div>
+
+    </div>
+
+    <div class="icone-line">
+        <div class="icone">
+            <a href="#"><img src="/img/documentation.png"></a>
+            <p>Documentation</p>
+        </div>
+        <div class="icone">
+            <a href="#"><img src="/img/fincance.png"></a>
+            <p>Finances</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

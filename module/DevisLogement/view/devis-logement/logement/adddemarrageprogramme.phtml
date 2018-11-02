@@ -1,0 +1,58 @@
+<?php
+
+$title = 'Paramétrage du PAFI au logement concerné';
+$this->headTitle($title);
+
+?>
+<h1><?= $this->escapeHtml($title) ?></h1>
+<?php
+
+
+$observation = $form->get('observation');
+$observation->setAttribute('class', 'form-control');
+$observation->setAttribute('placeholder', 'observation');
+
+
+$datedemarrageprogramme = $form->get('datedemarrageprogramme');
+$datedemarrageprogramme->setAttribute('class', 'form-control');
+$datedemarrageprogramme->setAttribute('placeholder', 'datedemarrageprogramme');
+
+
+
+
+$submit = $form->get('submit');
+$submit->setAttribute('class', 'btn btn-primary');
+$submit->setAttribute('value', 'créer ce pafi pour ce logement');
+
+
+
+$form->setAttribute('action', $this->url('logements', ['action' => 'addPafiBase','id'=>$id]));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+
+?>
+<br/><div class="button"><a href="<?= $this->url('logements', ['action' => 'index']) ?>"><i class="fas fa-plus"></i>Retour à
+        l'acceuil</a></div>
+<br>
+<br>
+
+<div class="form-group" id="froala-editor">
+    <?= $this->formLabel($observation) ?>
+    <?= $this->formElement($observation) ?>
+    <?= $this->formElementErrors()->render($observation, ['class' => 'help-block']) ?>
+</div>
+
+
+<div class="form-group" id="froala-editor">
+    <?= $this->formLabel($datedemarrageprogramme) ?>
+    <?= $this->formElement($datedemarrageprogramme) ?>
+    <?= $this->formElementErrors()->render($datedemarrageprogramme, ['class' => 'help-block']) ?>
+</div>
+
+<?php
+
+echo $this->formSubmit($submit);
+echo $this->form()->closeTag();
+
+?>

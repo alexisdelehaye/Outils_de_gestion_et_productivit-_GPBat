@@ -1,0 +1,49 @@
+<html>
+<body>
+<div style="border:1px dashed #333333; width:300px; margin:0 auto; padding:10px;">
+
+    <form name="import" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" /><br />
+        <input type="submit" name="submit" value="Submit" />
+    </form>
+    <?php
+    include("connection.php");
+
+    /*
+    if(isset($_POST["submit"])) {
+        $file = $_FILES['file']['tmp_name'];
+
+        $handle = fopen($file, "r");
+        $c = 0;
+       while (($filesop = fgetcsv($handle, 2000, ",")) !== false) {
+
+           $idCode = $filesop[0];
+           $DésignationCode = $filesop[1];
+           $Localisation = $filesop[2];
+           $UN = $filesop[3];
+           $PU = $filesop[4];
+           $Prix_Total = $filesop[5];
+           //echo $idCode . " " . $DésignationCode . " " . $Localisation . " " . $UN . " " . $PU . " " . $Prix_Total;
+
+       }
+
+
+
+            $sql = pg_query("INSERT INTO DevTCE (idCode, DésignationCode, Localisation, UN, PU, Prix_Total) VALUES ($idCode,$DésignationCode, $Localisation,$UN,$PU,$Prix_Total)");
+            $c = $c + 1;
+        }
+
+        if($sql){
+            echo "You database has imported successfully. You have inserted ". $c ." recoreds";
+        }else{
+            echo "Sorry! There is some problem.";
+
+
+    }
+    */
+    ?>
+
+</div>
+<hr style="margin-top:300px;" />
+</body>
+</html>

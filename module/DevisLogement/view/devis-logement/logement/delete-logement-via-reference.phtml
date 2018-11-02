@@ -1,0 +1,24 @@
+<?php
+
+$title = 'supprimer ce logement';
+$url   = $this->url('logements', ['action' => 'deleteLogementViaReference', 'id' => $id]);
+
+$this->headTitle($title);
+
+?>
+<h1><?= $this->escapeHtml($title) ?></h1>
+<br/>
+    Êtes-vous sûr de vouloir le logement suivant :
+    <p><?= $this->escapeHtml($logement->adresse) ?></p>
+    <p><?= $this->escapeHtml($logement->chargeopclient) ?></p>
+    <p><?= $this->escapeHtml($logement->moe) ?></p>
+<p><?= $this->escapeHtml($logement->typeoperation) ?></p>
+<p><?= $this->escapeHtml($logement->piloteopc) ?></p>
+
+<form action="<?= $url ?>" method="post">
+    <div class="form-group">
+        <input type="hidden" name="id" value="<?= (int) $poste->id ?>" />
+        <input type="submit" class="btn btn-danger" name="del" value="Oui" />
+        <input type="submit" class="btn btn-success" name="del" value="Non" />
+    </div>
+</form>

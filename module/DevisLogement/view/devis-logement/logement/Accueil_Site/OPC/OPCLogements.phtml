@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+<div class="nav">
+    <a href="<?= $this->url('logements', ['action' => 'Accueil']) ?>" ><img class="logo_nav" src="/img/somabim.png"></a>
+    <div class="navbar2">
+
+        <img class="barre" src="/img/navbar.png">
+
+        <a href="<?= $this->url('logements', ['action' => 'OPC']) ?>">Accueil</a>
+        <a href="#">Tableau de Bord</a>
+        <a href="#">Logements</a>
+        <a href="#">Partenaires</a>
+        <a class="active" href="<?= $this->url('logements', ['action' => 'OPCProgrammation']) ?>">Programmation</a>
+        <a href="#">Etudes</a>
+        <a href="#">Production</a>
+        <a href="#">Documentation</a>
+        <a href="#">Finances</a>
+
+    </div>
+</div>
+<div class="under-navbar">
+
+    <p>Fiche</p>
+    <p id="list" class="active_under" onclick="clearSearch('logements'); indicate(['list','etude','realise','preparation','cours','receptionne'],'list')">Liste des Logements</p>
+    <p id="etude" onclick="clearSearch('logements'); searchStringTableLogement('logements','étude de faisabilité client en cours'); indicate(['list','etude','realise','preparation','cours','receptionne'],'etude')">Logements en étude Client</p>
+    <p id="realise" onclick="clearSearch('logements'); searchStringTableLogement('logements','Préparation à lancer'); indicate(['list','etude','realise','preparation','cours','receptionne'],'realise')">Logements à Réalisé</p>
+    <p id="preparation" onclick="clearSearch('logements'); searchStringTableLogement('logements','préparation en cours'); indicate(['list','etude','realise','preparation','cours','receptionne'],'preparation')">Logements en Préparation</p>
+    <p id="cours" onclick="clearSearch('logements'); searchStringTableLogement('logements','travaux en cours'); indicate(['list','etude','realise','preparation','cours','receptionne'],'cours')">Logements en Cours</p>
+    <p id="receptionne" onclick="clearSearch('logements'); searchStringTableLogement('logements','logement réceptionné'); indicate(['list','etude','realise','preparation','cours','receptionne'],'receptionne')">Logements Réceptionné</p>
+</div>
+
+<div class="content">
+
+<table class="table" id="tableau-logements" style="display:block">
+    <input class="tri clear" id="clear-logements" type="submit" value="Clear" onclick="clearSearch('logements')"  />
+    <input class="tri search-button" id="search-button" type="submit" value="Rechercher" onclick="searchBar('logements')"/>
+    <input class="tri search" id="search" name="string" type="text" value="" />
+
+    <tr>
+        <th>Adresse du Chantier</th>
+        <th>Charge d'OP</th>
+        <th>M.O.E</th>
+        <th>Type d'opération</th>
+        <th>Pilote O.P.C</th>
+        <th>Nature opération</th>
+        <th>Etat de la demande</th>
+        <th>Etat du logement</th>
+        <th></th>
+    </tr>
+    <?php
+    $line=0;
+    foreach ($listeLogement as $logement) {
+        $line++; ?>
+        <tr id="tableau-<?php echo $line ?>">
+            <td><?= $this->escapeHtml($logement->adresse) ?></td>
+            <td contenteditable="true"><?= $this->escapeHtml($logement->chargeopclient) ?></td>
+            <td contenteditable="true"><?= $this->escapeHtml($logement->moe) ?></td>
+            <td><select id="etatypeoperation-<?php echo $line ?>">
+                    <option value="" selected disabled
+                            hidden><?= $this->escapeHtml($logement->typeoperation) ?></option>
+                    <option value="1">AHI</option>
+                    <option value="2">ATHI</option>
+                    <option value="3">RELL</option>
+                </select>
+            </td>
+            <td contenteditable="true"><?= $this->escapeHtml($logement->piloteopc) ?></td>
+            <?php foreach ($listedemande as $demande) {
+                if ($logement->idlogement === $demande->idlogementconcerne) { ?>
+                    <td contenteditable="true"><?= $this->escapeHtml($demande->natureoperation) ?></td>
+                    <td><select id="etatdemande-<?php echo $line ?>">
+                            <option value="" selected disabled
+                                    hidden><?= $this->escapeHtml($demande->etatdemande) ?></option>
+                            <option value="1">LGT PRIS EN COMPTE</option>
+                            <option value="2">LGT PAS PRIS EN COMPTE</option>
+                            <option value="3">étude de faisabilité client en cours</option>
+                            <option value="4">étude de faisabilité client validé</option>
+                        </select>
+                        <div class="circle" id="circle_tableau-logements_<?php echo $line ?>-7"></div>
+                    </td>
+                    <td><select id="etatlogement-<?php echo $line ?>">
+                            <option value="" selected disabled
+                                    hidden><?= $this->escapeHtml($demande->etatlogement) ?></option>
+                            <option value="1">Préparation en cours</option>
+                            <option value="2">travaux en cours</option>
+                            <option value="3">logement réceptionné</option>
+                            <option value="4">en attente de validation</option>
+                            <option value="5">Préparation à lancer</option>
+                        </select>
+                        <div class="circle" id="circle_tableau-logements_<?php echo $line ?>-8"></div>
+                    </td>
+                    <?php
+                    ?>
+                    <td><img src="/img/save.png" class="save"
+                             onclick="edit_table_logement('<?php echo $demande->idlogementconcerne ?>','<?php echo $line ?>','<?php echo $logement->typeoperation ?>','<?php echo $demande->etatdemande ?>','<?php echo $demande->etatlogement ?>')"/>
+                        <script>coloring("tableau-logements")</script>
+                    </td>
+                <?php } ?>
+                <?php
+            }
+            ?>
+        </tr>
+        <?php
+    }?>
+
+</table>
+</div>
+
+</body>
+</html>
